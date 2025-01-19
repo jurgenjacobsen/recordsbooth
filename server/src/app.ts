@@ -16,7 +16,7 @@ import { GetTopAlbums } from './Utils';
 dotenv.config();
 
 const app = express();
-const PORT = process.env?.PORT || 5192;
+const PORT = process.env?.PORT || 3000;
 const API_KEY = process.env?.API_KEY;
 const API_SECRET = process.env?.API_SECRET;
 const PRODUCTION = process.env?.PRODUCTION;
