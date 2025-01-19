@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RecordsBooth Charts</title>
+        <link rel="stylesheet" href="/style.css">
+        <link rel="icon" href="/icon.ico">
+    </head>
+
+    <body class="bg-[#03120e] text-[#f8f4e3] flex justify-center cursor-default select-none transition-all">
+        <div class="w-full max-w-3xl mx-auto">
+            <div class="p-4">
+                <div class="flex justify-center mt-12">
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+                        <button class="px-4 py-2 bg-[#428f66] rounded hover:opacity-75 duration-300"
+                            <%= !user ? 'disabled' : '' %> onclick="location.href='/download'">
+                            <%= user ? 'Download' : 'Not Logged In' %>
+                        </button>
+                        <button class="px-4 py-2 bg-[#b90000] rounded hover:opacity-75 duration-300"
+                            onclick="location.href='/<%= user ? `logout` : `login` %>'">
+                            <%= user ? 'Logout' : 'Login with LastFM' %>
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="text-4xl text-center mt-6">Your Top Albums</h1>
+                <h2 class="text-xl opacity-75 text-center">Last 7 days</h2>
+
+                <div class="p-12 -mt-6">
+                    <% if(user && data.albums) { %>
+                        <div class="grid grid-cols-3 rounded-md overflow-hidden">
+                            <% 
+                                let albums = data.albums || [];
+                                albums = albums.slice(0,9)
+                            %>
+                            <% albums.forEach((album) => { %>
+                                <img src="<%= album.image[3]?.['#text'] %>" alt="" class="w-full h-auto">
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <div class="grid grid-cols-3 rounded-md overflow-hidden w-full">
+                            <% for (let i = 0; i < 9; i++) { %>
+                                <div class="aspect-square flex items-center justify-center bg-[#26413c]">
+                                    <h1 class="text-xl text-white opacity-50 text-center">Album <%= i+1 %></h1>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="mt-2 text-center">
+                    <span>Source LastFM</span> 
+                    <span class="ml-4 text-[#b90000] hover:opacity-75">
+                        <a target="_blank" href="<%= user ? `https://www.last.fm/user/${user.name}` : 'https://www.last.fm' %>">Your Profile</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
