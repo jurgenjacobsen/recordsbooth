@@ -19,6 +19,7 @@ const app = express();
 const PORT = process.env?.PORT || 5192;
 const API_KEY = process.env?.API_KEY;
 const API_SECRET = process.env?.API_SECRET;
+const PRODUCTION = process.env?.PRODUCTION;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../../app'));
@@ -42,7 +43,7 @@ passport.use(
     {
       api_key: API_KEY as string,
       secret: API_SECRET,
-      callbackURL: `http://localhost:${PORT}/callback`,
+      callbackURL: PRODUCTION ? 'https://records-booth.vercel.app/callback' : `http://localhost:${PORT}/callback`,
     },
     (req, sessionKey, done) => {
       return done(null, sessionKey as any);
