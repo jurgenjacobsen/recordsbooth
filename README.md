@@ -1,4 +1,4 @@
-# RecordsBooth Charts
+![Banner](/app/public/banner.png)
 
 RecordsBooth Charts is a web application that allows users to log in with their LastFM account and generate an image to post on their Instagram story. This image showcases their music listening habits and top charts, making it easy to share their favorite tracks and artists with friends and followers.
 
