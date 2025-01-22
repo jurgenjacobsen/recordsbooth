@@ -21,7 +21,6 @@ const API_KEY = process.env?.API_KEY;
 const API_SECRET = process.env?.API_SECRET;
 const PRODUCTION = process.env?.PRODUCTION;
 
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../app'));
 app.use(express.static(path.join(__dirname, '../app/public')));
@@ -44,7 +43,9 @@ passport.use(
     {
       api_key: API_KEY as string,
       secret: API_SECRET,
-      callbackURL: PRODUCTION ? 'https://recordsboothcharts.onrender.com/callback' : `http://localhost:${PORT}/callback`,
+      callbackURL: PRODUCTION
+        ? 'https://recordsbooth.onrender.com/callback'
+        : `http://localhost:${PORT}/callback`,
     },
     (req, sessionKey, done) => {
       return done(null, sessionKey as any);
@@ -223,5 +224,5 @@ app.get('/download', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at ${PRODUCTION ? 'https://recordsbooth.onrender.com' : `http://localhost:${PORT}`}`);
 });

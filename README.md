@@ -23,4 +23,4 @@ For any questions or feedback, please open an issue on GitHub.
 ## TODO
 
 - [ ] Finalize code structure, trim all unnecessary code and add typescript types where needed to make the code more readable and maintainable.
-- [X] Remove all npm packages that are not needed.
+- [x] Remove all npm packages that are not needed.
