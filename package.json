@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/app.ts",
-    "build": "tsc",
+    "dev": "ts-node ./src/app.ts",
+    "build": "npx tailwindcss -i ./app/public/tailwind.css -o ./app/public/style.css && tsc",
     "start": "node dist/app.js",
-    "css": "npx tailwindcss -i ../app/public/tailwind.css -o ../app/public/style.css --watch",
+    "css": "npx tailwindcss -i ./app/public/tailwind.css -o ./app/public/style.css --watch",
     "format": "prettier --write ."
   },
   "keywords": [],
@@ -39,6 +39,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-lastfm": "^1.0.3",
     "prettier": "^3.4.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "vercel": "^39.3.0"
   }
 }

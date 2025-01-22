@@ -21,9 +21,10 @@ const API_KEY = process.env?.API_KEY;
 const API_SECRET = process.env?.API_SECRET;
 const PRODUCTION = process.env?.PRODUCTION;
 
+
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../../app'));
-app.use(express.static(path.join(__dirname, '../../app/public')));
+app.set('views', path.join(__dirname, '../app'));
+app.use(express.static(path.join(__dirname, '../app/public')));
 
 app.use(cors());
 
@@ -90,11 +91,12 @@ app.get('/', async (req: any, res) => {
   res.render('app', { user, data });
 });
 
-registerFont(path.join(__dirname, '../../app/public/fonts/Roboto-Bold.ttf'), {
+registerFont(path.join(__dirname, '../app/public/fonts/Roboto-Bold.ttf'), {
   family: 'Roboto',
   weight: 'bold',
 });
-registerFont(path.join(__dirname, '../../app/public/fonts/Roboto-Black.ttf'), {
+
+registerFont(path.join(__dirname, '../app/public/fonts/Roboto-Black.ttf'), {
   family: 'Roboto',
   weight: 'black',
 });
