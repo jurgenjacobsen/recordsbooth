@@ -44,7 +44,7 @@ passport.use(
     {
       api_key: API_KEY as string,
       secret: API_SECRET,
-      callbackURL: PRODUCTION ? 'https://records-booth.vercel.app/callback' : `http://localhost:${PORT}/callback`,
+      callbackURL: PRODUCTION ? 'https://recordsboothcharts.onrender.com/callback' : `http://localhost:${PORT}/callback`,
     },
     (req, sessionKey, done) => {
       return done(null, sessionKey as any);
