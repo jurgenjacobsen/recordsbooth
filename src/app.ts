@@ -21,6 +21,7 @@ const PORT = process.env?.PORT || 3000;
 const API_KEY = process.env?.API_KEY;
 const API_SECRET = process.env?.API_SECRET;
 const PRODUCTION = process.env?.PRODUCTION;
+const SECRET_COOKIE = process.env?.SECRET_COOKIE;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../app'));
@@ -32,7 +33,7 @@ if(PRODUCTION)
 
 app.use(
   session({
-    secret: 'secret-key',
+    secret: SECRET_COOKIE as string,
     resave: false,
     saveUninitialized: true,
   }),
