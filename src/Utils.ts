@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export { GetTopAlbums };
+export { GetTopAlbums, KeepAlive };
 
 async function GetTopAlbums(
   user: string,
@@ -26,4 +26,24 @@ async function GetTopAlbums(
   if (!resposne.data) throw new Error('Failed to fetch data from Last.fm');
 
   return resposne.data;
+}
+
+function KeepAlive(timeIntervalMin: number, error?: boolean) {
+  if (!timeIntervalMin) throw new Error('Missing required parameters');
+  let time = timeIntervalMin * 60 * 1000;
+  if (!error) {
+    setInterval(() => {
+      axios
+        .get('https://recordsbooth.onrender.com/')
+        .then(() => console.log('Kept alive'))
+        .catch(() => {
+          KeepAlive(timeIntervalMin, true);
+        });
+    }, time);
+  } else {
+    axios
+      .get('https://recordsbooth.onrender.com/')
+      .then(() => console.log('Kept alive'))
+      .catch(() => console.log('Failed to keep alive'));
+  }
 }

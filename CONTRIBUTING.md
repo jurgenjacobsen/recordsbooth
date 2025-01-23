@@ -32,51 +32,45 @@ Thank you for considering contributing to RecordsBooth! We welcome contributions
 
 1. **Fork the Repository**
 
-    - Click the `Fork` button at the top of the repository page.
+   - Click the `Fork` button at the top of the repository page.
 
 2. **Clone Your Fork**
 
-    ```bash
-    git clone https://github.com/jurgenjacobsen/recordsbooth.git
-    cd recordsbooth
-    ```
+   ```bash
+   git clone https://github.com/jurgenjacobsen/recordsbooth.git
+   cd recordsbooth
+   ```
 
 3. **Create a Branch**
 
-    ```bash
-    git checkout -b your-branch-name
-    ```
+   ```bash
+   git checkout -b your-branch-name
+   ```
 
 4. **Make Your Changes**
 
-    - Follow the coding style and conventions used in the project.
-    - Write meaningful commit messages.
-    - Make sure your changes work as expected.
-    - Test before pushing your changes.
-    - If possible, add a description of your changes in the commit message.
+   - Follow the coding style and conventions used in the project.
+   - Write meaningful commit messages.
+   - Make sure your changes work as expected.
+   - Test before pushing your changes.
+   - If possible, add a description of your changes in the commit message.
 
 5. **Run Tests (if applicable)**
 
-    ```bash
-    npm test
-    ```
+   ```bash
+   npm test
+   ```
 
 6. **Push Your Changes**
 
-    ```bash
-    git push origin your-branch-name
-    ```
+   ```bash
+   git push origin your-branch-name
+   ```
 
 7. **Create a Pull Request (PR)**
 
-    - Go to the original repository and click `New Pull Request`.
-    - Link any relevant issues and provide a clear description of your changes.
-
----
-
-## Code of Conduct
-
-By participating in this project, you agree to abide by our [Code of Conduct](/CODE_OF_CONDUCT.md).
+   - Go to the original repository and click `New Pull Request`.
+   - Link any relevant issues and provide a clear description of your changes.
 
 ---
 
@@ -90,4 +84,3 @@ By participating in this project, you agree to abide by our [Code of Conduct](/C
 ---
 
 Thank you for helping improve RecordsBooth and being part of our community!
-

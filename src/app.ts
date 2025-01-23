@@ -11,7 +11,7 @@ import { createCanvas, loadImage, registerFont } from 'canvas';
 import passport from 'passport';
 import LastFmStrategy from 'passport-lastfm';
 import session from 'express-session';
-import { GetTopAlbums } from './Utils';
+import { GetTopAlbums, KeepAlive } from './Utils';
 
 dotenv.config();
 
@@ -224,5 +224,11 @@ app.get('/download', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at ${PRODUCTION ? 'https://recordsbooth.onrender.com' : `http://localhost:${PORT}`}`);
+  console.log(
+    `🚀 Server running at ${PRODUCTION ? 'https://recordsbooth.onrender.com' : `http://localhost:${PORT}`}`,
+  );
+
+  if(PRODUCTION) {
+    KeepAlive(14);
+  }
 });
