@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 import ejs from 'ejs';
 
 import path from 'path';
@@ -26,6 +27,8 @@ app.set('views', path.join(__dirname, '../app'));
 app.use(express.static(path.join(__dirname, '../app/public')));
 
 app.use(cors());
+if(PRODUCTION) 
+  app.use(morgan('combined'))
 
 app.use(
   session({
