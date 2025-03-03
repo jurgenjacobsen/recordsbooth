@@ -43,6 +43,6 @@
     "@types/passport-lastfm": "^1.0.3",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
-    "vercel": "^39.3.0"
+    "vercel": "^41.3.0"
   }
 }
