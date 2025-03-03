@@ -1,0 +1,29 @@
+<% 
+    let period = data?.SEARCH_PERIOD || '7day';
+    period = period.replace('7day', '7 days').replace('1month', 'Month');
+%>
+
+<h1 class="text-4xl text-center">Your Top Artists</h1>
+<h2 class="text-xl opacity-75 text-center">Last <%= period %></h2>
+
+<div class="mt-4">
+    <% if(user && data.artists) { %>
+        <div class="grid grid-cols-3 rounded-md overflow-hidden">
+            <% 
+                let artists = data.artists || [];
+                artists = artists.slice(0,9)
+            %>
+            <% artists.forEach((artist) => { %>
+                <img src="<%= artist.image[3]?.['#text'] %>" alt="" class="w-full h-auto">
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="grid grid-cols-3 rounded-md overflow-hidden w-full">
+            <% for (let i = 0; i < 9; i++) { %>
+                <div class="aspect-square flex items-center justify-center bg-[#26413c]">
+                    <h1 class="text-xl text-white opacity-50 text-center">Artist <%= i+1 %></h1>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>

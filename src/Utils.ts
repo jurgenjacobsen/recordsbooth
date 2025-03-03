@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-export { GetTopAlbums, KeepAlive };
+export { FetchUser, KeepAlive };
 
-async function GetTopAlbums(
+async function FetchUser(
+  method: 'topAlbums' | 'topArtists' | 'topSongs',
   user: string,
   period: string,
   sk: string,
@@ -11,9 +12,16 @@ async function GetTopAlbums(
 ) {
   if (!user || !period || !api_key) throw new Error('Missing required parameters');
 
-  let resposne = await axios.get('http://ws.audioscrobbler.com/2.0/', {
+  let met =
+    method === 'topAlbums'
+      ? 'user.getTopAlbums'
+      : method === 'topArtists'
+        ? 'user.getTopArtists'
+        : 'user.getTopTracks';
+
+  let response = await axios.get('http://ws.audioscrobbler.com/2.0/', {
     params: {
-      method: 'user.getTopAlbums',
+      method: met,
       user,
       period,
       api_key,
@@ -23,9 +31,9 @@ async function GetTopAlbums(
     },
   });
 
-  if (!resposne.data) throw new Error('Failed to fetch data from Last.fm');
+  if (!response.data) throw new Error('Failed to fetch data from Last.fm');
 
-  return resposne.data;
+  return response.data;
 }
 
 function KeepAlive(timeIntervalMin: number, error?: boolean) {

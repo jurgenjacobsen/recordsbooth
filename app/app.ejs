@@ -1,79 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <title>RecordsBooth - Charts</title>
-        <meta name="description" content="RecordsBooth Charts lets users log in with their LastFM account to generate Instagram story images showcasing their top music charts and listening habits for easy sharing.">
+    <%- include('blocks/head') %>
 
-        <!-- Facebook Meta Tags -->
-        <meta property="og:url" content="https://recordsbooth.onrender.com/">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="RecordsBooth - Charts">
-        <meta property="og:description" content="RecordsBooth Charts lets users log in with their LastFM account to generate Instagram story images showcasing their top music charts and listening habits for easy sharing.">
-        <meta property="og:image" content="/public/banner.jpg">
+    <body class="bg-[#03120e] text-[#f8f4e3] cursor-default select-none transition-all">
+        <div class="text-center mt-4">
+            <img src="/LogoWide.png" alt="Logo" class="w-36 inline-block">
+        </div>
+        <div class="flex justify-center">
+            <div class="w-full max-w-3xl mx-auto">
+                <div class="p-4">
+                    <div class="flex justify-center">
+                        <div class="grid grid-cols-2 gap-x-4 w-full max-w-md">
+                            <div class="col-span-2">
+                                <h1 class="mt-6 text-xl opacity-75 ">
+                                    <% if(user) { %>
+                                        Welcome, <%= user.name %>!
+                                    <% } else { %>
+                                        <h1 class="mt-4 text-xl opacity-75 ">
+                                            Welcome to our Charts App!
+                                        </h1>
+                                    <% } %>
+                                </h1>
+                            </div>
+                            
+                            <% if(user) { %>
+                                <button class="mt-4 px-4 py-2 bg-[#428f66] rounded hover:opacity-75 duration-300"
+                                <%= !user ? 'disabled' : '' %> onclick="<%= `location.href='/download?chart=${data.CHART_QUERY}&period=${data.SEARCH_PERIOD}'` %>">
+                                <%= user ? 'Download' : 'Not Logged In' %>
+                                </button>
+                            <% } %>
 
-        <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta property="twitter:domain" content="recordsbooth.onrender.com">
-        <meta property="twitter:url" content="https://recordsbooth.onrender.com/">
-        <meta name="twitter:title" content="RecordsBooth - Charts">
-        <meta name="twitter:description" content="RecordsBooth Charts lets users log in with their LastFM account to generate Instagram story images showcasing their top music charts and listening habits for easy sharing.">
-        <meta name="twitter:image" content="/public/banner.jpg">
+                            <button class="mt-4 px-4 py-2 bg-[#b90000] rounded hover:opacity-75 duration-300"
+                                onclick="location.href='/<%= user ? `logout` : `login` %>'">
+                                <%= user ? 'Logout' : 'Login with LastFM' %>
+                            </button>
 
-        <link rel="stylesheet" href="/style.css">
-        <link rel="icon" href="/icon.ico">
-    </head>
+                            <div class="col-span-2">
+                                <h1 class="mt-6 text-xl opacity-75 ">
+                                    <%= user ? `Which chart are you looking for?` : 'Login before choosing the chart you want' %>
+                                    
+                                </h1>
 
-    <body class="bg-[#03120e] text-[#f8f4e3] flex justify-center cursor-default select-none transition-all">
-        <div class="w-full max-w-3xl mx-auto">
-            <div class="p-4">
-                <div class="flex justify-center mt-12">
-                    <div class="grid grid-cols-2 gap-4 w-full max-w-md">
-                        <button class="px-4 py-2 bg-[#428f66] rounded hover:opacity-75 duration-300"
-                            <%= !user ? 'disabled' : '' %> onclick="location.href='/download'">
-                            <%= user ? 'Download' : 'Not Logged In' %>
-                        </button>
-                        <button class="px-4 py-2 bg-[#b90000] rounded hover:opacity-75 duration-300"
-                            onclick="location.href='/<%= user ? `logout` : `login` %>'">
-                            <%= user ? 'Logout' : 'Login with LastFM' %>
-                        </button>
-                    </div>
-                </div>
-
-                <h1 class="text-4xl text-center mt-6">Your Top Albums</h1>
-                <h2 class="text-xl opacity-75 text-center">Last 7 days</h2>
-
-                <div class="p-12 -mt-6">
-                    <% if(user && data.albums) { %>
-                        <div class="grid grid-cols-3 rounded-md overflow-hidden">
-                            <% 
-                                let albums = data.albums || [];
-                                albums = albums.slice(0,9)
-                            %>
-                            <% albums.forEach((album) => { %>
-                                <img src="<%= album.image[3]?.['#text'] %>" alt="" class="w-full h-auto">
-                            <% }) %>
+                                <% if(user) { %>
+                                    <div class="mt-2 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="sectionSelect">Select a Chart Model</label>
+                                            <select id="sectionSelect" class="rounded p-1 bg-[#07271f] ring-none outline-none">
+                                                <option value="">Select one option</option>
+                                                <option value="topAlbums" <% if (data.CHART_QUERY === 'topAlbums') { %>selected<% } %>>Top Albums</option>
+                                                <!--<option value="topArtists" <% if (data.CHART_QUERY === 'topArtists') { %>selected<% } %>>Top Artists</option>-->
+                                                <!--<option value="topSongs" <% if (data.CHART_QUERY === 'topSongs') { %>selected<% } %>>Top Songs</option>-->
+                                            </select>
+                                        </div>
+                        
+                                        <div>
+                                            <label for="periodSelect">Select a Period</label>
+                                            <select id="periodSelect" class="rounded p-1 bg-[#07271f] ring-none outline-none">
+                                                <option value="">Select a Period</option>
+                                                <option value="7day" <% if (data.SEARCH_PERIOD === '7day') { %>selected<% } %>>Last 7 days</option>
+                                                <option value="1month" <% if (data.SEARCH_PERIOD === '1month') { %>selected<% } %>>One Month</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
-                    <% } else { %>
-                        <div class="grid grid-cols-3 rounded-md overflow-hidden w-full">
-                            <% for (let i = 0; i < 9; i++) { %>
-                                <div class="aspect-square flex items-center justify-center bg-[#26413c]">
-                                    <h1 class="text-xl text-white opacity-50 text-center">Album <%= i+1 %></h1>
+
+                        
+                    </div>
+
+                    <% if(user) { %>
+                        <div class="mt-6 p-7 ring-1 ring-[#07231c] rounded-md">
+                            <% if(user && data.SEARCH_PERIOD && data?.CHART_QUERY == 'topAlbums') { %>
+                                <div class="section" id="topAlbums">
+                                    <%- include('options/topAlbums') %>
+                                </div>
+                            <% } %>
+        
+                            <% if(user && data.SEARCH_PERIOD && data?.CHART_QUERY == 'topArtists') { %>
+                                <div class="section" id="topArtists">
+                                    <%- include('options/topArtists') %>
+                                </div>
+                            <% } %>
+        
+                            <% if(user && data.SEARCH_PERIOD && data?.CHART_QUERY == 'topSongs') { %>
+                                <div class="section" id="topSongs">
+                                    <%- include('options/topSongs') %>
                                 </div>
                             <% } %>
                         </div>
                     <% } %>
-                </div>
-
-                <div class="mt-2 text-center">
-                    <span>Source LastFM</span> 
-                    <span class="ml-4 text-[#b90000] hover:opacity-75">
-                        <a target="_blank" href="<%= user ? `https://www.last.fm/user/${user.name}` : 'https://www.last.fm' %>">Your Profile</a>
-                    </span>
+    
+                    <div class="mt-12 text-center">
+                        <span>Source</span> 
+                        <span class="ml-2 text-[#b90000] hover:opacity-75">
+                            <a target="_blank" href="<%= user ? `https://www.last.fm/user/${user.name}` : 'https://www.last.fm' %>">LastFM</a>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            const selectElement = document.getElementById('sectionSelect');
+            const sections = document.querySelectorAll('.section');
+
+            const periodSelect = document.getElementById('periodSelect');
+        
+            selectElement.addEventListener('change', (event) => {
+                const selectedSectionId = event.target.value;
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('chart', selectedSectionId);
+                window.location.search = urlParams; 
+            });
+
+            periodSelect.addEventListener('change', (event) => {
+                const selectedPeriod = event.target.value;
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('period', selectedPeriod);
+                window.location.search = urlParams; 
+            });
+        </script>
     </body>
 </html>
