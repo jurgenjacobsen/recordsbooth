@@ -18,7 +18,7 @@ For any questions or feedback, please open an issue on GitHub.
 
 ## TODO
 
-- [ ] Change the footer text to a @recordsbooth mention (still considering).
+- [x] Change the footer text to a @recordsbooth mention.
 - [ ] Finalize code structure, trim all unnecessary code and add typescript types where needed to make the code more readable and maintainable.
 - [x] Remove all npm packages that are not needed.
 - [x] Host the app online.
