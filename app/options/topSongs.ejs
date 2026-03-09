@@ -14,8 +14,17 @@
                 tracks = tracks.slice(0,9)
             %>
             <% tracks.forEach((track) => { %>
-                <%= JSON.stringify(track) %>
-                <img src="<%= track.image[3]?.['#text'] %>" alt="" class="w-full h-auto">
+                <% if(track.image[3]?.['#text']) { %>
+                    <img src="<%= track.image[3]['#text'] %>" alt="" class="w-full h-auto aspect-square object-cover"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="aspect-square flex items-center justify-center bg-[#26413c]" style="display:none">
+                        <h1 class="text-xl text-white opacity-50 text-center"><%= track.name %></h1>
+                    </div>
+                <% } else { %>
+                    <div class="aspect-square flex items-center justify-center bg-[#26413c]">
+                        <h1 class="text-xl text-white opacity-50 text-center"><%= track.name %></h1>
+                    </div>
+                <% } %>
             <% }) %>
         </div>
     <% } else { %>
