@@ -81,21 +81,20 @@ app.get('/', async (req: any, res) => {
   let data: undefined | any;
   let user: undefined | any = req?.user;
 
-  let CHART_QUERY: any | undefined;
-  console.log(req.query);
+  let CHART_QUERY: 'topAlbums' | 'topArtists' | 'topSongs' = 'topAlbums';
   if (
     req.query?.chart &&
     ['topAlbums', 'topArtists', 'topSongs'].includes(req.query?.chart as string)
   )
-    CHART_QUERY = req.query?.chart as string;
+    CHART_QUERY = req.query?.chart as 'topAlbums' | 'topArtists' | 'topSongs';
 
-  let SEARCH_PERIOD: string | undefined;
+  let SEARCH_PERIOD: string = '7day';
   if (req.query?.period && ['7day', '1month'].includes(req.query?.period as string))
     SEARCH_PERIOD = req.query?.period as string;
 
-  if (user && SEARCH_PERIOD && CHART_QUERY) {
+  if (user) {
     data = await FetchUser(
-      CHART_QUERY || 'topAlbums',
+      CHART_QUERY,
       user.name,
       SEARCH_PERIOD,
       sK,
@@ -134,22 +133,21 @@ app.get('/download', async (req, res) => {
   let data: undefined | any;
   let user: undefined | any = req?.user;
 
-  let CHART_QUERY: any | undefined;
-  console.log(req.query);
+  let CHART_QUERY: 'topAlbums' | 'topArtists' | 'topSongs' = 'topAlbums';
   if (
     req.query?.chart &&
     ['topAlbums', 'topArtists', 'topSongs'].includes(req.query?.chart as string)
   )
-    CHART_QUERY = req.query?.chart as string;
+    CHART_QUERY = req.query?.chart as 'topAlbums' | 'topArtists' | 'topSongs';
 
-  let SEARCH_PERIOD: string | undefined;
+  let SEARCH_PERIOD: string = '7day';
   if (req.query?.period && ['7day', '1month'].includes(req.query?.period as string))
     SEARCH_PERIOD = req.query?.period as string;
 
   data = await FetchUser(
-    CHART_QUERY || 'topAlbums',
+    CHART_QUERY,
     user.name,
-    SEARCH_PERIOD as any,
+    SEARCH_PERIOD,
     sK,
     API_KEY as string,
     10,
@@ -166,15 +164,22 @@ app.get('/download', async (req, res) => {
     const ctx = canvas.getContext('2d');
 
     for (let i = 0; i < data.length; i++) {
-      const response = await axios.get(data[i]?.image?.[3]?.['#text'], {
-        responseType: 'arraybuffer',
-      });
-      const imageBuffer = response.data;
-      const image = await loadImage(imageBuffer as any);
-
       const x = (i % 3) * 300;
       const y = Math.floor(i / 3) * 300;
-      ctx.drawImage(image, x, y, 300, 300);
+      const imageUrl = data[i]?.image?.[3]?.['#text'];
+      if (imageUrl) {
+        try {
+          const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+          const image = await loadImage(response.data as any);
+          ctx.drawImage(image, x, y, 300, 300);
+        } catch {
+          ctx.fillStyle = '#26413c';
+          ctx.fillRect(x, y, 300, 300);
+        }
+      } else {
+        ctx.fillStyle = '#26413c';
+        ctx.fillRect(x, y, 300, 300);
+      }
     }
 
     const largeCanvas = createCanvas(1080, 1920);
